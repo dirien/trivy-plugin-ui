@@ -9,10 +9,10 @@ platforms:
   - selector:
       os: linux
       arch: amd64
-    uri: https://github.com/dirien/trivy-plugin-ui/releases/download/v0.1.0/ui-0.1.0-linux-amd64.zip
-    bin: ./ui
+    uri: https://github.com/dirien/trivy-plugin-ui/releases/download/v0.1.0/ui-0.1.0-linux-amd64.tar.gz
+    bin: ./ui-0.1.0-linux-amd64/ui
   - selector:
       os: darwin
       arch: amd64
-    uri: https://github.com/dirien/trivy-plugin-ui/releases/download/v0.1.0/ui-0.1.0-darwin-amd64.zip
-    bin: ./ui
+    uri: https://github.com/dirien/trivy-plugin-ui/releases/download/v0.1.0/ui-0.1.0-darwin-amd64.tar.gz
+    bin: ./ui-0.1.0-darwin-amd64/ui
