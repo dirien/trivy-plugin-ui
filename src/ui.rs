@@ -85,67 +85,87 @@ pub fn build_ui<B: Backend>(f: &mut Frame<B>, app: &mut App) {
             if !vul.is_null() {
                 let block = Block::default().title(format!("Summary for {}", (*vul).vulnerability_id.as_ref().expect("dw"))).border_style(Style::default().fg(Color::Green)).borders(Borders::ALL);
 
-                let mut text = vec![
-                    Spans::from(""),
-                    Spans::from(vec![
-                        Span::styled("Title:", Style::default().fg(Color::Green)),
-                    ]),
-                    Spans::from(""),
-                    Spans::from(vec![
-                        Span::raw((*vul).title.as_ref().expect("error getting title")),
-                    ]),
-                    Spans::from(""),
-                    Spans::from(vec![
-                        Span::styled("Description:", Style::default().fg(Color::Green)),
-                    ]),
-                    Spans::from(""),
-                    Spans::from(vec![
-                        Span::raw((*vul).description.as_ref().expect("error getting title")),
-                    ]),
-                    Spans::from(""),
-                    Spans::from(vec![
-                        Span::styled("Vulnerability ID:", Style::default().fg(Color::Green)),
-                    ]),
-                    Spans::from(""),
-                    Spans::from(vec![
-                        Span::raw((*vul).vulnerability_id.as_ref().expect("error getting title")),
-                    ]),
-                    Spans::from(""),
-                    Spans::from(vec![
-                        Span::styled("Severity:", Style::default().fg(Color::Green)),
-                    ]),
-                    Spans::from(""),
-                    Spans::from(vec![
-                        Span::raw((*vul).severity.as_ref().expect("error getting title")),
-                    ]),
-                    Spans::from(""),
-                    Spans::from(vec![
-                        Span::styled("Severity Source:", Style::default().fg(Color::Green)),
-                    ]),
-                    Spans::from(""),
-                    Spans::from(vec![
-                        Span::raw((*vul).severity_source.as_ref().expect("error getting title")),
-                    ]),
-                    Spans::from(""),
-                    Spans::from(vec![
-                        Span::styled("Package Name:", Style::default().fg(Color::Green)),
-                    ]),
-                    Spans::from(""),
-                    Spans::from(vec![
-                        Span::raw((*vul).pkg_name.as_ref().expect("error getting title")),
-                    ]),
-                    Spans::from(""),
-                    Spans::from(vec![
-                        Span::styled("Installed Version:", Style::default().fg(Color::Green)),
-                    ]),
-                    Spans::from(""),
-                    Spans::from(vec![
-                        Span::raw((*vul).installed_version.as_ref().expect("error getting title")),
-                    ]),
-                    Spans::from(""),
-                ];
+                let mut text = vec![];
 
+                if let Some(ref title) = (*vul).title {
+                    text.push(Spans::from(""));
+                    text.push(
+                        Spans::from(vec![
+                            Span::styled("Title:", Style::default().fg(Color::Green)),
+                        ]));
+                    text.push(Spans::from(""));
+                    text.push(Spans::from(vec![
+                        Span::raw(title),
+                    ]));
+                }
+                if let Some(ref description) = (*vul).description {
+                    text.push(Spans::from(""));
+                    text.push(
+                        Spans::from(vec![
+                            Span::styled("Description:", Style::default().fg(Color::Green)),
+                        ]));
+                    text.push(Spans::from(""));
+                    text.push(Spans::from(vec![
+                        Span::raw(description),
+                    ]));
+                }
+                if let Some(ref vulnerability_id) = (*vul).vulnerability_id {
+                    text.push(Spans::from(""));
+                    text.push(
+                        Spans::from(vec![
+                            Span::styled("Vulnerability ID:", Style::default().fg(Color::Green)),
+                        ]));
+                    text.push(Spans::from(""));
+                    text.push(Spans::from(vec![
+                        Span::raw(vulnerability_id),
+                    ]));
+                }
+                if let Some(ref severity) = (*vul).severity {
+                    text.push(Spans::from(""));
+                    text.push(
+                        Spans::from(vec![
+                            Span::styled("Severity ID:", Style::default().fg(Color::Green)),
+                        ]));
+                    text.push(Spans::from(""));
+                    text.push(Spans::from(vec![
+                        Span::raw(severity),
+                    ]));
+                }
+                if let Some(ref severity_source) = (*vul).severity_source {
+                    text.push(Spans::from(""));
+                    text.push(
+                        Spans::from(vec![
+                            Span::styled("Severity Source:", Style::default().fg(Color::Green)),
+                        ]));
+                    text.push(Spans::from(""));
+                    text.push(Spans::from(vec![
+                        Span::raw(severity_source),
+                    ]));
+                }
+                if let Some(ref pkg_name) = (*vul).pkg_name {
+                    text.push(Spans::from(""));
+                    text.push(
+                        Spans::from(vec![
+                            Span::styled("Package Name:", Style::default().fg(Color::Green)),
+                        ]));
+                    text.push(Spans::from(""));
+                    text.push(Spans::from(vec![
+                        Span::raw(pkg_name),
+                    ]));
+                }
+                if let Some(ref installed_version) = (*vul).installed_version {
+                    text.push(Spans::from(""));
+                    text.push(
+                        Spans::from(vec![
+                            Span::styled("Installed Version:", Style::default().fg(Color::Green)),
+                        ]));
+                    text.push(Spans::from(""));
+                    text.push(Spans::from(vec![
+                        Span::raw(installed_version),
+                    ]));
+                }
                 if let Some(ref fixed_version) = (*vul).fixed_version {
+                    text.push(Spans::from(""));
                     text.push(
                         Spans::from(vec![
                             Span::styled("Fixed Version:", Style::default().fg(Color::Green)),

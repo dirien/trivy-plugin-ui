@@ -326,3 +326,22 @@ release:
       enabled: true
     skipTag: true
 ```
+
+### Installing the plugin
+
+Let's install the plugin:
+
+```bash
+trivy plugin install github.com/dirien/trivy-plugin-ui
+2022-10-21T11:24:36.868+0200	INFO	Installing the plugin from github.com/dirien/trivy-plugin-ui...
+2022-10-21T11:24:38.614+0200	INFO	Loading the plugin metadata...
+```
+
+And see the plugin in the list:
+
+```bash
+trivy plugin list
+Installed Plugins:
+  Name:    trivy-ui
+  Version: 0.1.0
+```

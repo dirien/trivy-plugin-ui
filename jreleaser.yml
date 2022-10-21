@@ -21,11 +21,10 @@ assemble:
   archive:
     ui:
       active: ALWAYS
-      formats: [ ZIP ]
+      formats: [ TAR_GZ ]
       attachPlatform: true
       fileSets:
         - input: 'target/release'
-          output: 'bin'
           includes: [ 'ui{.exe,}' ]
         - input: '.'
           includes: [ 'LICENSE' ]
@@ -36,16 +35,18 @@ distributions:
     executable:
       windowsExtension: exe
     artifacts:
-      - path: '{{artifactsDir}}/{{distributionName}}-{{projectVersion}}-darwin-amd64.zip'
+      - path: '{{artifactsDir}}/{{distributionName}}-{{projectVersion}}-darwin-amd64.tar.gz'
         platform: 'osx-x86_64'
-      - path: '{{artifactsDir}}/{{distributionName}}-{{projectVersion}}-linux-amd64.zip'
+      - path: '{{artifactsDir}}/{{distributionName}}-{{projectVersion}}-linux-amd64.tar.gz'
         platform: 'linux-x86_64'
-      - path: '{{artifactsDir}}/{{distributionName}}-{{projectVersion}}-windows-amd64.zip'
+      - path: '{{artifactsDir}}/{{distributionName}}-{{projectVersion}}-windows-amd64.tar.gz'
         platform: 'windows-x86_64'
 
 release:
   github:
     owner: dirien
     name: trivy-plugin-ui
-    overwrite: true
     skipTag: true
+    draft: false
+    update:
+      enabled: true
