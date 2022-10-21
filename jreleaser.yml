@@ -46,9 +46,8 @@ release:
   github:
     owner: dirien
     name: trivy-plugin-ui
-    skipTag: true
+    skipTag: false
     draft: false
-    overwrite: true
     update:
       enabled: true
       sections:
