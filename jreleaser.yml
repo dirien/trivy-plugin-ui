@@ -48,5 +48,10 @@ release:
     name: trivy-plugin-ui
     skipTag: true
     draft: false
+    overwrite: true
     update:
       enabled: true
+      sections:
+        - ASSETS
+        - TITLE
+        - BODY
