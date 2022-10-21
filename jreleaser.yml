@@ -1,0 +1,51 @@
+project:
+  name: ui
+  version: 0.1.0
+  description: A simple tui Trivy plugin written in Rust
+  authors:
+    - Engin Diri
+  license: Apache-2.0
+  inceptionYear: 2022
+
+environment:
+  properties:
+    artifactsDir: out/jreleaser/assemble/ui/archive
+
+platform:
+  replacements:
+    'osx-x86_64': 'darwin-amd64'
+    'linux-x86_64': 'linux-amd64'
+    'windows-x86_64': 'windows-amd64'
+
+assemble:
+  archive:
+    ui:
+      active: ALWAYS
+      formats: [ ZIP ]
+      attachPlatform: true
+      fileSets:
+        - input: 'target/release'
+          output: 'bin'
+          includes: [ 'ui{.exe,}' ]
+        - input: '.'
+          includes: [ 'LICENSE' ]
+
+distributions:
+  ui:
+    type: BINARY
+    executable:
+      windowsExtension: exe
+    artifacts:
+      - path: '{{artifactsDir}}/{{distributionName}}-{{projectVersion}}-darwin-amd64.zip'
+        platform: 'osx-x86_64'
+      - path: '{{artifactsDir}}/{{distributionName}}-{{projectVersion}}-linux-amd64.zip'
+        platform: 'linux-x86_64'
+      - path: '{{artifactsDir}}/{{distributionName}}-{{projectVersion}}-windows-amd64.zip'
+        platform: 'windows-x86_64'
+
+release:
+  github:
+    owner: dirien
+    name: trivy-plugin-ui
+    overwrite: true
+    skipTag: true

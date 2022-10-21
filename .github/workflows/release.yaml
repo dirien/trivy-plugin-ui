@@ -1,0 +1,85 @@
+name: build-binary
+
+on:
+  push:
+    branches:
+      - '*'
+    tags:
+      - '*'
+  pull_request:
+
+permissions: read-all
+
+jobs:
+  build:
+    strategy:
+      fail-fast: true
+      matrix:
+        os: [ ubuntu-latest, macOS-latest, windows-latest ]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@2541b1294d2704b0964813337f33b291d3f8596b # tag=v3.0.2
+        with:
+          fetch-depth: 0
+
+      - uses: actions-rs/toolchain@b2417cde72dcf67f306c0ae8e0828a81bf0b189f # tag=v1.0.7
+        with:
+          toolchain: stable
+
+      - uses: actions-rs/cargo@ae10961054e4aa8b4aa7dffede299aaf087aa33b # tag=v1.0.3
+        with:
+          command: build
+          args: --release --all-features
+
+      - name: jReleaser assemble
+        uses: jreleaser/release-action@9d00b8a3e38acac18558faf7152ca24368ed0d9f # tag=v2.2.0
+        with:
+          arguments: assemble
+        env:
+          JRELEASER_GITHUB_TOKEN: ${{ secrets.GH_PAT }}
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@3cea5372237819ed00197afe530f5a7ea3e805c8 # tag=v3.1.0
+        with:
+          name: artifacts
+          path: |
+            out/jreleaser/assemble/ui/archive/*.zip
+
+      - name: Upload JReleaser output
+        if: always()
+        uses: actions/upload-artifact@3cea5372237819ed00197afe530f5a7ea3e805c8 # tag=v3.1.0
+        with:
+          name: jreleaser-${{ matrix.os }}
+          path: |
+            out/jreleaser/trace.log
+            out/jreleaser/output.properties
+
+  release:
+    needs: [ build ]
+    runs-on: ubuntu-latest
+    if: success() && startsWith(github.ref, 'refs/tags/')
+    steps:
+      - name: Checkout
+        uses: actions/checkout@2541b1294d2704b0964813337f33b291d3f8596b # tag=v3.0.2
+        with:
+          fetch-depth: 0
+
+      - name: Download artifacts
+        uses: actions/download-artifact@fb598a63ae348fa914e94cd0ff38f362e927b741 # tag=v3.0.0
+
+      - name: jReleaser release
+        uses: jreleaser/release-action@9d00b8a3e38acac18558faf7152ca24368ed0d9f # tag=v2.2.0
+        with:
+          arguments: full-release -PartifactsDir=artifacts -PskipArchiveResolver
+        env:
+          JRELEASER_GITHUB_TOKEN: ${{ secrets.GH_PAT }}
+
+      - name: Upload JReleaser output
+        if: always()
+        uses: actions/upload-artifact@3cea5372237819ed00197afe530f5a7ea3e805c8 # tag=v3.1.0
+        with:
+          name: jreleaser-release
+          path: |
+            out/jreleaser/trace.log
+            out/jreleaser/output.properties

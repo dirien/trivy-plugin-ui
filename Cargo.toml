@@ -1,0 +1,15 @@
+[package]
+name = "ui"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+crossterm = "0.25.0"
+serde_json = "1.0.86"
+tui = "0.19.0"
+serde = { version = "1.0.145", features = ["derive"] }
+clap = { version = "4.0.17", features = ["derive"] }
+
+
