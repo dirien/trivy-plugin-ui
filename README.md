@@ -322,6 +322,7 @@ release:
   github:
     owner: dirien
     name: trivy-plugin-ui
-    overwrite: true
+    update:
+      enabled: true
     skipTag: true
 ```
