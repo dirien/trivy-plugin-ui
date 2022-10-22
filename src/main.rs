@@ -1,4 +1,3 @@
-#[allow(unused_imports)]
 use std::{error::Error, io};
 use tui::{
     backend::{Backend, CrosstermBackend},
@@ -77,7 +76,7 @@ fn main() -> Result<(), Box<dyn Error>> {
     let mut terminal = Terminal::new(backend)?;
 
     // create app and run it
-    let app = App::new(args.image_name.to_string(), object);
+    let app = App::new(args.image_name, object);
     let res = run_app(&mut terminal, app);
 
     // restore terminal

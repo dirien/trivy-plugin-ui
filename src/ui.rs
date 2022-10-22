@@ -18,7 +18,7 @@ pub fn build_ui<B: Backend>(f: &mut Frame<B>, app: &mut App) {
         .split(size);
 
     let paragraph = Paragraph::new(Span::styled(
-        app.image_name.clone(),
+        app.image_name.as_str(),
         Style::default().add_modifier(Modifier::BOLD),
     ))
         .alignment(Alignment::Center)
@@ -62,7 +62,7 @@ pub fn build_ui<B: Backend>(f: &mut Frame<B>, app: &mut App) {
         }
     }
     let (v1, _): (Vec<_>, Vec<_>) = rows.clone().into_iter().unzip();
-    let t = Table::new(v1.clone())
+    let t = Table::new(v1)
         .column_spacing(1)
         .block(Block::default().borders(Borders::ALL).title("Results"))
         .style(lib::check_focus(app.show_popup))
@@ -80,7 +80,7 @@ pub fn build_ui<B: Backend>(f: &mut Frame<B>, app: &mut App) {
     if app.show_popup {
         let selected_row = app.state.selected().unwrap_or(0);
         unsafe {
-            let row = rows.get(selected_row).expect("No row found");
+            let row = rows.get(selected_row).unwrap();
             let vul = row.1;
             if !vul.is_null() {
                 let block = Block::default().title(format!("Summary for {}", (*vul).vulnerability_id.as_ref().expect("dw"))).border_style(Style::default().fg(Color::Green)).borders(Borders::ALL);
